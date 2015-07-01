@@ -1,0 +1,14 @@
+<%#
+kind: PXELinux
+name: WAIK default PXELinux
+oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
+%>
+
+DEFAULT menu    
+LABEL menu         
+     COM32 linux.c32 <%= @kernel %>
+     APPEND initrdfile=<%= @initrd %>,<%= @host.operatingsystem.bootfile(@host.arch,:bcd) %>,<%= @host.operatingsystem.bootfile(@host.arch,:bootsdi) %>,<%= @host.operatingsystem.bootfile(@host.arch,:bootwim) %>

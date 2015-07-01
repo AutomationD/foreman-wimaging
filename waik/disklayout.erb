@@ -1,0 +1,32 @@
+<%#
+kind: ptable
+name: WAIK default
+oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
+%>
+
+:: Disk Partitioning Layout
+
+set DPFILE=%SYSTEMDRIVE%\dp.txt
+
+:: Append commands to Diskpart file
+echo select disk 0 > %DPFILE%
+echo clean >> %DPFILE%
+echo create partition primary size=100 >> %DPFILE%
+echo select partition 1 >> %DPFILE%
+echo active >> %DPFILE%
+echo format quick fs=ntfs >> %DPFILE%
+echo create partition primary >> %DPFILE%
+echo select partition 2 >> %DPFILE%
+echo format quick fs=ntfs label="OS" >> %DPFILE%
+echo assign letter="C" >> %DPFILE%
+echo exit >> %DPFILE%
+
+:: Execute Diskpart with file as script argument
+diskpart /s %DPFILE%
+
+:: Remove Diskpart script file
+del %DPFILE%
