@@ -2,12 +2,8 @@
 kind: ptable
 name: WAIK default
 oses:
-- Windows Server 2008
-- Windows Server 2008 R2
-- Windows Server 2012
-- Windows Server 2012 R2
+- Windows
 %>
-
 :: Disk Partitioning Layout
 
 set DPFILE=%SYSTEMDRIVE%\dp.txt
@@ -21,7 +17,7 @@ echo active >> %DPFILE%
 echo format quick fs=ntfs >> %DPFILE%
 echo create partition primary >> %DPFILE%
 echo select partition 2 >> %DPFILE%
-echo format quick fs=ntfs label="OS" >> %DPFILE%
+echo format quick fs=ntfs label="<%= @host.operatingsystem.family -%>" >> %DPFILE%
 echo assign letter="C" >> %DPFILE%
 echo exit >> %DPFILE%
 
