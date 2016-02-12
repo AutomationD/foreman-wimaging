@@ -1,7 +1,11 @@
 <%#
 kind: user_data
-name: WAIK joinDomain.ps1
+name: Wimaging joinDomain.ps1
 oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
 - Windows
 # Parameters are expected to be set in Foreman (globally or per group/host)
 params:
@@ -13,4 +17,4 @@ params:
 $user = "<%= @host.params['domainAdminAccount'] -%>"
 $passwd = ConvertTo-SecureString -String "<%= @host.params['domainAdminAccountPasswd'] -%>" -AsPlainText -Force
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $user, $passwd
-Add-Computer -DomainName <% if @host.params['computerDomain'] -%><%= @host.params['computerDomain'] -%><% else -%><%= @host.domain -%><% end -%> -Credential $Credential <% if  @host.params['computerOU'] -%>-OUPath "<%= @host.params['computerOU'] -%>"<% elsif snippet('WAIK OU from hostgroup') -%>-OUPath "<%= snippet('WAIK OU from hostgroup') -%>"<% end -%> -PassThru
+Add-Computer -DomainName <% if @host.params['computerDomain'] -%><%= @host.params['computerDomain'] -%><% else -%><%= @host.domain -%><% end -%> -Credential $Credential <% if  @host.params['computerOU'] -%>-OUPath "<%= @host.params['computerOU'] -%>"<% elsif snippet('Wimaging OU from hostgroup') -%>-OUPath "<%= snippet('Wimaging OU from hostgroup') -%>"<% end -%> -PassThru

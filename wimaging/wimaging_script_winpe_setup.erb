@@ -1,7 +1,11 @@
 <%#
 kind: script
-name: WAIK peSetup.cmd
+name: Wimaging peSetup.cmd
 oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
 - Windows
 # Parameters are expected to be set in Foreman (globally or per group/host)
 params:
@@ -30,7 +34,7 @@ echo Downloading the drivers
 md c:\drivers
 %WGET% -P c:\drivers -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/drivers/
 
-<% if snippets "WAIK extraFinishCommands" -%>
+<% if snippets "Wimaging extraFinishCommands" -%>
   echo Downloading extras
   md C:\Extras
   %WGET% -P c:\Extras -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/extras/
