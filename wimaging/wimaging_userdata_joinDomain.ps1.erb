@@ -17,4 +17,4 @@ params:
 $user = "<%= @host.params['domainAdminAccount'] -%>"
 $passwd = ConvertTo-SecureString -String "<%= @host.params['domainAdminAccountPasswd'] -%>" -AsPlainText -Force
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $user, $passwd
-Add-Computer -DomainName <% if @host.params['computerDomain'] -%><%= @host.params['computerDomain'] -%><% else -%><%= @host.domain -%><% end -%> -Credential $Credential <% if  @host.params['computerOU'] -%>-OUPath "<%= @host.params['computerOU'] -%>"<% elsif snippet('Wimaging OU from hostgroup') -%>-OUPath "<%= snippet('Wimaging OU from hostgroup') -%>"<% end -%> -PassThru
+Add-Computer -DomainName <% if @host.params['computerDomain'] -%><%= @host.params['computerDomain'] -%><% else -%><%= @host.domain -%><% end -%> -Credential $Credential <% if  @host.params['computerOU'] -%>-OUPath "<%= @host.params['computerOU'] -%>"<% elsif snippet('Wimaging OU from Hstgroup') -%>-OUPath "<%= snippet('Wimaging OU from Hostgroup') -%>"<% end -%> -PassThru
