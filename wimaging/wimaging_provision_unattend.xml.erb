@@ -1,7 +1,11 @@
 <%#
 kind: provision
-name: WAIK default
+name: Wimaging default provision
 oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
 - Windows
 # Parameters are expected to be set in Foreman (globally or per group/host)
 params:
@@ -81,8 +85,8 @@ params:
                     <PlainText>false</PlainText>
                     <Value><%= Base64.encode64(Encoding::Converter.new("UTF-8", "UTF-16LE",:undef => nil).convert(Base64.decode64(root_pass)+"AdministratorPassword")).delete!("\n").chomp %></Value>
                 </AdministratorPassword>
-                <% if snippet('WAIK local users') -%>
-                  <%= snippet('WAIK local users') -%>
+                <% if snippet('Wimaging local users') -%>
+                  <%= snippet('Wimaging local users') -%>
                 <% end %>
             </UserAccounts>
             <TimeZone><%= @host.params['systemTimeZone'] -%></TimeZone>

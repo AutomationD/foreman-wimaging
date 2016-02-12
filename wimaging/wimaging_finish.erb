@@ -1,7 +1,11 @@
 <%#
 kind: finish
-name: WAIK default
+name: Wimaging default finish
 oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
 - Windows
 # Parameters are expected to be set in Foreman (globally or per group/host)
 params:
@@ -74,9 +78,9 @@ params:
   sdelete.exe -accepteula -p 2 -r c:\minint
   sdelete.exe -accepteula -p 2 -r c:\wimaging
 
-  <% if snippets "WAIK extraFinishCommands" -%>
+  <% if snippets "Wimaging extraFinishCommands" -%>
   echo Running extra commands
-  <%= snippets "WAIK extraFinishCommands" %>
+  <%= snippets "Wimaging extraFinishCommands" %>
   echo cleaning up extras
   sdelete.exe -accepteula -p 2 -r c:\extras
   <% end -%>
