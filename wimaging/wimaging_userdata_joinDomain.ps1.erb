@@ -20,7 +20,7 @@ if @host.params['computerDomain']
 else
   domain_name = @host.domain
 end
-if @host.params['computerOU'] and ( @host.params['computerOU'] != 'automatic' or @host.params['computerOU'] != 'default' )
+if @host.params['computerOU'] and ( @host.params['computerOU'] != 'automatic' and @host.params['computerOU'] != 'default' )
   computer_ou = @host.params['computerOU']
 elsif snippet('Wimaging OU from Hostgroup') and @host.params['computerOU'] == 'automatic'
   computer_ou = snippet('Wimaging OU from Hostgroup')
