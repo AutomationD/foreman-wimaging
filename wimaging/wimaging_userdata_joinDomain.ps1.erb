@@ -9,12 +9,26 @@ oses:
 - Windows
 # Parameters are expected to be set in Foreman (globally or per group/host)
 params:
-- domainAdminAccount: administrator@domain.com # use tthis account to join domain. If set, domain join will run
-- domainAdminAccountPasswd: Password for the domain Admin account
+- domainJoinAccount: administrator@domain.com # use tthis account to join domain. If set, domain join will run
+- domainJoinAccountPasswd: Password for the domain Admin account
 - computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
 - computerDomain: domain.com # domain to join, optional
 %>
-$user = "<%= @host.params['domainAdminAccount'] -%>"
-$passwd = ConvertTo-SecureString -String "<%= @host.params['domainAdminAccountPasswd'] -%>" -AsPlainText -Force
+<%
+if @host.params['computerDomain']
+  domain_name = @host.params['computerDomain']
+else
+  domain_name = @host.domain
+end
+if @host.params['computerOU']
+  computer_ou = @host.params['computerOU']
+elsif snippet('WAIK OU from Hostgroup')
+  computer_ou = snippet('WAIK OU from Hostgroup')
+else
+  computer_ou = false 
+end
+%>
+$user = "<%= @host.params['domainJoinAccount'] -%>"
+$passwd = ConvertTo-SecureString -String '<%= @host.params['domainJoinAccountPassword'] -%>' -AsPlainText -Force
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $user, $passwd
-Add-Computer -DomainName <% if @host.params['computerDomain'] -%><%= @host.params['computerDomain'] -%><% else -%><%= @host.domain -%><% end -%> -Credential $Credential <% if  @host.params['computerOU'] -%>-OUPath "<%= @host.params['computerOU'] -%>"<% elsif snippet('Wimaging OU from Hostgroup') -%>-OUPath "<%= snippet('Wimaging OU from Hostgroup') -%>"<% end -%> -PassThru
+Add-Computer -DomainName <%= domain_name %> -Credential $Credential <% if computer_ou %>-OUPath '<%= computer_ou %>'<% end %> -PassThru

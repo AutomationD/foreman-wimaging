@@ -12,6 +12,10 @@ params:
 - wimImageName: Windows 8.1 Pro # name of wim image to apply
 - windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
 - windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+- extraFilesCutDirs: directories wget should strip when downloading extra files.
+%>
+<%
+  cut_dirs = @host.params['extraFilesCutDirs'] ? @host.params['extraFilesCutDirs'] : '3'
 %>
 @echo off
 set WGET=x:\wimaging\deploy\wget64.exe
@@ -32,12 +36,12 @@ C:\Windows\System32\bcdboot C:\Windows /l en-US
  
 echo Downloading the drivers 
 md c:\drivers
-%WGET% -P c:\drivers -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/drivers/
+%WGET% -P c:\drivers -r -np -nH --cut-dirs=<%= cut_dirs %> -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/drivers/
 
 <% if snippets "Wimaging extraFinishCommands" -%>
   echo Downloading extras
   md C:\Extras
-  %WGET% -P c:\Extras -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/extras/
+  %WGET% -P c:\Extras -r -np -nH --cut-dirs=<%= cut_dirs %> -R index.html -q --level=0 <%= @host.os.medium_uri(@host).to_s %>/extras/
 <% end -%>
  
 echo Stage the Unattend.xml file for dism to apply
