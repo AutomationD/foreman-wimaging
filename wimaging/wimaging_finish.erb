@@ -96,7 +96,7 @@ params:
     sc config puppet start= auto
     sc query puppet
     rem this is rather hacky
-    call "C:\Program Files\Puppet Labs\Puppet\bin\puppet.bat" agent -t -v --tags no_such_tag
+    rem call "C:\Program Files\Puppet Labs\Puppet\bin\puppet.bat" agent -t -v --tags no_such_tag
   <% end -%>
 
   <% if snippets "Wimaging extraFinishCommands" -%>
