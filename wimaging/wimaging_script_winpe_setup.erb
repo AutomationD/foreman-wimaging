@@ -76,6 +76,10 @@ dism.exe /Image:C:\ /Apply-Unattend:c:\Windows\Panther\unattend.xml /ScratchDir:
 echo Apply Drivers
 dism.exe /Image:C:\ /Add-Driver /Driver:c:\drivers\ /Recurse /ForceUnsigned
 
+<% if @host.params['pesetup_additional_triggers'] -%>
+  <%= snippets "Wimaging peSetup.cmd additional triggers" %>
+<% end -%>
+
 :: Uncomment PAUSE for debug:
 ::PAUSE
 exit 0
