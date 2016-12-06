@@ -80,6 +80,8 @@ dism.exe /Image:C:\ /Add-Driver /Driver:c:\drivers\ /Recurse /ForceUnsigned
   <%= snippets "Wimaging peSetup.cmd additional triggers" %>
 <% end -%>
 
+echo "Tell foreman build has finished (it has not but there isn't an intermeditate state between install and build)"
+%WGET% <%= foreman_url('built') %>
 :: Uncomment PAUSE for debug:
 ::PAUSE
 exit 0
